@@ -29,8 +29,10 @@ public class GameManager : MonoBehaviour
             case GameState.Menu:
                 break;
             case GameState.PlayerTurn:
+                HandlePlayerTurn();
                 break;
             case GameState.EnemyTurn:
+                HandleEnemyTurn();
                 break;
             case GameState.Victory:
                 break;
@@ -41,6 +43,16 @@ public class GameManager : MonoBehaviour
         }
 
         OnGameSTateChanged?.Invoke(newState);
+    }
+
+    private void HandleEnemyTurn()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandlePlayerTurn()
+    {
+        throw new NotImplementedException();
     }
 
     public enum GameState
