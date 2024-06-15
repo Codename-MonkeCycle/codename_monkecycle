@@ -42,5 +42,12 @@ namespace MonkeGame
             Rare,
             Mythic
         }
+
+        public enum RarityColor
+        {
+            Black,
+            Blue,
+            Magenta
+        }
     }
 }
