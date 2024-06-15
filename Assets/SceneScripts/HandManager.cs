@@ -6,30 +6,36 @@ using System;
 
 public class HandManager : MonoBehaviour
 {
+    public DeckManager deckManager;
     public GameObject cardPrefab;
     public Transform handTransform; //root of hand positoin
     public float fanSpread = -14f;
     public List<GameObject> cardsInHand = new List<GameObject>();
     public float horiSpace = -120f;
     public float verticalSpace = 102f;
+    public int maxHandSize = 9;
 
     void Start()
     {
-        AddCardToHand();
-        AddCardToHand();
-        AddCardToHand();
-        AddCardToHand();
-        AddCardToHand();
-        AddCardToHand();
+
     }
 
-    public void AddCardToHand()
+    public void AddCardToHand(CardObject cardData)
     {
+        if (cardsInHand.Count == maxHandSize)
+        {
+            return;
+        }
+        else { 
         //Instantiate cards
         GameObject newCard = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
         cardsInHand.Add(newCard);
 
+        //Set instantiated cards data
+        newCard.GetComponent<CardDisplay>().cardData = cardData;
+
         UpdateHandVisuals();
+        }
     }
 
 

@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MonkeGame;
 
 public class DeckManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public List<CardObject> allCards = new List<CardObject>();
+
+    private int currentIndex = 0;
+    private void Start()
     {
-        
+        //Load all card assets from the Resources folder
+        CardObject[] cards = Resources.LoadAll<CardObject>("Cards");
+
+        // Add loaded cards into the allcards list
+        allCards.AddRange(cards);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DrawCard(HandManager handManager)
     {
-        
+        if (allCards.Count == 0)
+        return;
+
+        CardObject nextCard = allCards[currentIndex];
+        handManager.AddCardToHand(nextCard);
+        currentIndex = (currentIndex + 1) % allCards.Count;
+
     }
+
 }
