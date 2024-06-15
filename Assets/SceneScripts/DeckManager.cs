@@ -7,7 +7,7 @@ public class DeckManager : MonoBehaviour
 {
 
     public List<CardObject> allCards = new List<CardObject>();
-
+    public int startingHand = 4;
     private int currentIndex = 0;
     private void Start()
     {
@@ -16,6 +16,11 @@ public class DeckManager : MonoBehaviour
 
         // Add loaded cards into the allcards list
         allCards.AddRange(cards);
+        HandManager handMan = FindObjectOfType<HandManager>();
+        for (int i = 0; i < startingHand; i++)
+        {
+            DrawCard(handMan);
+        }
     }
 
     public void DrawCard(HandManager handManager)
