@@ -2237,7 +2237,7 @@ MonoBehaviour:
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
   originalPosition: {x: 0, y: 0, z: 0}
   selectScale: 1.1
-  cardPlay: {x: 0, y: 400}
+  cardPlay: {x: 0, y: 300}
   playPosition: {x: 0, y: 460, z: 0}
   glowEffect: {fileID: 1754042900982702387}
   playArrow: {fileID: 8333913679711801422}

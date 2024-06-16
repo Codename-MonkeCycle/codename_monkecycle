@@ -2,65 +2,91 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MonkeGame;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager Instance { get; private set; }
+    private int playerHealth;
+    private int difficulty = 0;
+    public OptionsManager OptionsManager { get; private set; }
+    public AudioManager AudioManager { get; private set; }
+    public DeckManager DeckManager { get; private set; }
 
-    public GameState State;
-
-    public static event Action<GameState> OnGameSTateChanged;
     private void Awake()
     {
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        UpdateGameState(GameState.Menu);
-    }
-
-    public void UpdateGameState(GameState newState)
-    {
-        State = newState;
-
-        switch (newState)
+        if (Instance == null)
         {
-            case GameState.Menu:
-                break;
-            case GameState.PlayerTurn:
-                HandlePlayerTurn();
-                break;
-            case GameState.EnemyTurn:
-                HandleEnemyTurn();
-                break;
-            case GameState.Victory:
-                break;
-            case GameState.Lose:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            InitializeManagers();
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void InitializeManagers()
+    {
+        OptionsManager = GetComponent<OptionsManager>();
+        AudioManager = GetComponent<AudioManager>();
+        DeckManager = GetComponent<DeckManager>();
+
+        if (OptionsManager == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Prefabs/OptionsManager");
+            if (prefab == null)
+            {
+                Debug.Log("Optionsmanager prefb not found");
+            }
+            else
+            {
+                Instantiate(prefab, transform.position,Quaternion.identity,transform);
+                OptionsManager = GetComponentInChildren<OptionsManager>();
+            }
         }
 
-        OnGameSTateChanged?.Invoke(newState);
+        if (AudioManager  == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Prefabs/AudioManager");
+            if (prefab == null)
+            {
+                Debug.Log("AudioManager prefb not found");
+            }
+            else
+            {
+                Instantiate(prefab, transform.position, Quaternion.identity, transform);
+                AudioManager = GetComponentInChildren<AudioManager>();
+            }
+        }
+
+        if (DeckManager == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Prefabs/DeckManager");
+            if (prefab == null)
+            {
+                Debug.Log("DeckManager prefb not found");
+            }
+            else
+            {
+                Instantiate(prefab, transform.position, Quaternion.identity, transform);
+                DeckManager = GetComponentInChildren<DeckManager>();
+            }
+        }
+
     }
 
-    private void HandleEnemyTurn()
+    public int PlayerHealth
     {
-        throw new NotImplementedException();
+        get { return playerHealth; }
+        set { playerHealth = value; }
     }
 
-    private void HandlePlayerTurn()
+    public int Difficulty
     {
-        throw new NotImplementedException();
-    }
-
-    public enum GameState
-    {
-        Menu,
-        PlayerTurn,
-        EnemyTurn,
-        Victory,
-        Lose
+        get { return difficulty; }
+        set { difficulty = value; }
     }
 }

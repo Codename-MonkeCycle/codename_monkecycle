@@ -16,11 +16,9 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     [SerializeField] private Vector3 originalPosition;
     [SerializeField] private float selectScale = 1.1f;
     [SerializeField] private Vector2 cardPlay;
-    [SerializeField] private Vector3 playPosition = new Vector3(0,160,0);
-    
+    [SerializeField] private Vector3 playPosition = new Vector3(0,160,0);   
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
-    [SerializeField] private float lerpingTime = 0.6f;
 
     private void Awake()
     {
