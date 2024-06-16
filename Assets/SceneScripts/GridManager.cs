@@ -55,6 +55,5 @@ public class GridManager : MonoBehaviour
         }
         else return false;
 
-        return true;
     }
 }

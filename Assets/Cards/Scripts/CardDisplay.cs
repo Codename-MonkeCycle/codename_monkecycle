@@ -46,8 +46,6 @@ public class CardDisplay : MonoBehaviour
         costText.text = cardData.cost.ToString();
         status1Text.text = cardData.status1.ToString();
         status2Text.text = cardData.status2.ToString();
-        status3Text.text = cardData.status3.ToString();
-        status4Text.text = cardData.status4.ToString();
     }
 
 }

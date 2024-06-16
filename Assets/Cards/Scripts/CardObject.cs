@@ -22,8 +22,9 @@ namespace MonkeGame
         public int damage;
         public int status1;
         public int status2;
-        public int status3;
-        public int status4;
+        public List<Target> targetType;
+
+
 
         //public StatusEffect statusEffect;
 
@@ -49,5 +50,13 @@ namespace MonkeGame
             Blue,
             Magenta
         }
+
+        public enum Target
+        {
+            Self,
+            Enemy,
+            Aoe
+        }
+        
     }
 }
