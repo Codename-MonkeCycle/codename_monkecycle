@@ -2232,11 +2232,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792ce00af50e28a42ada4cbc93687bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalLocalPointerPosition: {x: 0, y: 0}
+  originalPanelLocalPosition: {x: 0, y: 0, z: 0}
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  originalPosition: {x: 0, y: 0, z: 0}
   selectScale: 1.1
   cardPlay: {x: 0, y: 400}
-  playPosition: {x: 960, y: 540, z: 0}
+  playPosition: {x: 0, y: 460, z: 0}
   glowEffect: {fileID: 1754042900982702387}
   playArrow: {fileID: 8333913679711801422}
+  lerpingTime: 0.6
 --- !u!1 &7300470772320063690
 GameObject:
   m_ObjectHideFlags: 0
@@ -2464,6 +2469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1540388742485475167}
+  - component: {fileID: 4124142757013274372}
   m_Layer: 0
   m_Name: PlayArrow
   m_TagString: Untagged
@@ -2490,6 +2496,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4124142757013274372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8333913679711801422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb9c1500658a7a54d85910edf968b945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowPrefab: {fileID: 5999972489027345446, guid: 35d2aa25d2a583446bd9f9943dab51ba,
+    type: 3}
+  dotPrefab: {fileID: 8547147551926574132, guid: ad5aa68516087b84b910684b6b64eac6,
+    type: 3}
+  poolSize: 50
+  spacing: 22
+  arrowAngleAdjust: 180
+  dotsToSkip: 3
 --- !u!1 &8736945158858558029
 GameObject:
   m_ObjectHideFlags: 0

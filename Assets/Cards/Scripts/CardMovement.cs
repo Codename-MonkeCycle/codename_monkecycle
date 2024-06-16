@@ -14,12 +14,13 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private int currentState = 0;
     [SerializeField] private Quaternion originalRotation;
     [SerializeField] private Vector3 originalPosition;
-
     [SerializeField] private float selectScale = 1.1f;
     [SerializeField] private Vector2 cardPlay;
-    [SerializeField] private Vector3 playPosition;
+    [SerializeField] private Vector3 playPosition = new Vector3(0,160,0);
+    
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
+    [SerializeField] private float lerpingTime = 0.6f;
 
     private void Awake()
     {
@@ -119,7 +120,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
             {
                 rectTransform.position = Input.mousePosition;
                 if (rectTransform.localPosition.y > cardPlay.y)
-                {
+                { 
                     currentState = 3;
                     playArrow.SetActive(true);
                     rectTransform.localPosition = playPosition;
