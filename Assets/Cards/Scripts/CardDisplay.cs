@@ -9,6 +9,9 @@ using TMPro.EditorUtilities;
 
 public class CardDisplay : MonoBehaviour
 {
+    public int damage;
+    public int heal;
+    public int shield;
     public CardObject cardData;
     public Image cardImage;
     public TMP_Text nameText;
@@ -18,8 +21,6 @@ public class CardDisplay : MonoBehaviour
     public TMP_Text costText;
     public TMP_Text status1Text;
     public TMP_Text status2Text;
-    public TMP_Text status3Text;
-    public TMP_Text status4Text;
     private Color[] rarityColors =
     {
         Color.black,//common
@@ -46,6 +47,9 @@ public class CardDisplay : MonoBehaviour
         costText.text = cardData.cost.ToString();
         status1Text.text = cardData.status1.ToString();
         status2Text.text = cardData.status2.ToString();
+        damage = cardData.damage;
+        heal = cardData.heal;
+        shield = cardData.shield;
     }
 
 }
