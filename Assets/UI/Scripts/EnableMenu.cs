@@ -19,7 +19,7 @@ public class EnableMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("escape") || (Input.GetButtonDown("start")))
+        if (Input.GetKeyDown("escape"))
         {
             if (menu.activeInHierarchy == false)
             {
