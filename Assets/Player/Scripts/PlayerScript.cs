@@ -7,9 +7,11 @@ public class PlayerScript : MonoBehaviour
     public int maxHp;
     public int currentShield;
     private int currentHp;
+    public int energy;
     void Start()
     {
         currentHp = maxHp;
+        energy = 3;
     }
 
     // Update is called once per frame
