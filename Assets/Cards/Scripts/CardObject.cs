@@ -22,10 +22,14 @@ namespace MonkeGame
         public int damage;
         public int status1;
         public int status2;
-        public List<Target> targetType;
+        public TargetType targetType;
+        public string target;
 
 
-
+        void Start()
+        {
+            target = targetType.ToString();
+        }
         //public StatusEffect statusEffect;
 
         public enum CardType
@@ -50,13 +54,11 @@ namespace MonkeGame
             Blue,
             Magenta
         }
-
-        public enum Target
+        public enum TargetType
         {
             Self,
-            Enemy,
-            Aoe
+            Enemy
         }
-        
+
     }
 }

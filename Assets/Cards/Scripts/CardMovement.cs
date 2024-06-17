@@ -11,18 +11,20 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private Canvas canvas;
     [SerializeField] private Vector2 originalLocalPointerPosition;
     [SerializeField] private Vector3 originalPanelLocalPosition;
-     private Vector3 originalScale;
+    private Vector3 originalScale;
     private int currentState = 0;
     [SerializeField] private Quaternion originalRotation;
     [SerializeField] private Vector3 originalPosition;
     [SerializeField] private float selectScale = 1.1f;
     [SerializeField] private Vector2 cardPlay;
-    [SerializeField] private Vector3 playPosition = new Vector3(0,160,0);   
+    [SerializeField] private Vector3 playPosition = new Vector3(0, 160, 0);
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
     private int damage;
     private int heal;
     private int shield;
+    private int cost;
+    private string target;
 
 
 
@@ -43,6 +45,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         damage = GetComponent<CardDisplay>().damage;
         heal = GetComponent<CardDisplay>().heal;
         shield = GetComponent<CardDisplay>().shield;
+        cost = GetComponent<CardDisplay>().cost;
+        target = GetComponentInParent<CardDisplay>().target;
 
     }
     void Update()
@@ -54,7 +58,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
                 break;
             case 2:
                 HandleDragState();
-                if(!Input.GetMouseButton(0)) //check button is released
+                if (!Input.GetMouseButton(0)) //check button is released
                 {
                     TransitionToSTate0();
                 }
@@ -83,7 +87,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (currentState == 0)
-        {            
+        {
             currentState = 1;
             //Debug.Log("state 1"); // debugger
         }
@@ -92,29 +96,45 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     {
         rectTransform.localPosition = playPosition;
         rectTransform.localRotation = Quaternion.identity;
-        
+
         if (!Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
             Debug.Log("Let go");
             Debug.Log(hit.collider);
-            if (hit.collider != null && hit.collider.GetComponent<EnemyScript>())
+            PlayerScript player = hit.collider.GetComponent<PlayerScript>();
+            if (player.energy >= cost)
             {
-                EnemyScript enemy = hit.collider.GetComponent<EnemyScript>();
-                enemy.TakeDamage(damage);
-            }
-            if (hit.collider != null && hit.collider.GetComponent<PlayerScript>())
-            {
-                PlayerScript player = hit.collider.GetComponent<PlayerScript>();
-                player.HealDamage(heal);
-                player.ShieldUp(shield);
-            }
+                if (hit.collider != null && hit.collider.GetComponent<EnemyScript>() && target == "Enemy")
+                {
+                    EnemyScript enemy = hit.collider.GetComponent<EnemyScript>();
+                    enemy.TakeDamage(damage);
+                    player.energy -= cost;
+                }
+                else 
+                {
+                    Debug.Log("Wrong target!");
+                }
 
+                if (hit.collider != null && hit.collider.GetComponent<PlayerScript>() && target == "Self")
+                {
+
+                    player.HealDamage(heal);
+                    player.ShieldUp(shield);
+                    player.energy -= cost;
+                }
+                else
+                {
+                    Debug.Log("Wrong target!");
+                }
+
+            }
+            else { Debug.Log("No speed left"); }
 
         }
 
-        if (Input.mousePosition.y < cardPlay.y) 
+        if (Input.mousePosition.y < cardPlay.y)
         {
             currentState = 2;
             playArrow.SetActive(false);
@@ -123,14 +143,14 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     }
 
     private void HandleDragState()
-    {       
+    {
         rectTransform.localRotation = Quaternion.identity;//set the cards rotation to 0
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(currentState == 1) 
-        {           
+        if (currentState == 1)
+        {
             TransitionToSTate0();
         }
     }
@@ -138,7 +158,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     {
         glowEffect.SetActive(true);
         rectTransform.localScale = originalScale * selectScale;
-        
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -150,7 +170,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
             {
                 rectTransform.position = Input.mousePosition;
                 if (rectTransform.localPosition.y > cardPlay.y)
-                { 
+                {
                     currentState = 3;
                     playArrow.SetActive(true);
                     rectTransform.localPosition = playPosition;
@@ -165,7 +185,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         if (currentState == 1)
         {
             currentState = 2;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(),eventData.position,eventData.pressEventCamera, out originalLocalPointerPosition);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), eventData.position, eventData.pressEventCamera, out originalLocalPointerPosition);
             originalPanelLocalPosition = rectTransform.localPosition;
             //Debug.Log("state 2"); // debugger
         }

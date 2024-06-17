@@ -20,7 +20,7 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-    public void TakeDamage(int damage)
+    public void DamagePlayer(int damage)
     {
         if (currentShield >= 0) 
         { 

@@ -12,6 +12,8 @@ public class CardDisplay : MonoBehaviour
     public int damage;
     public int heal;
     public int shield;
+    public int cost;
+    public string target;
     public CardObject cardData;
     public Image cardImage;
     public TMP_Text nameText;
@@ -50,6 +52,8 @@ public class CardDisplay : MonoBehaviour
         damage = cardData.damage;
         heal = cardData.heal;
         shield = cardData.shield;
+        cost = cardData.cost;
+        target = cardData.target;
     }
 
 }
