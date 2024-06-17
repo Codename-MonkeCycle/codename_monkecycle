@@ -1,3 +1,4 @@
+using MonkeGame;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     [SerializeField] private Vector3 playPosition = new Vector3(0,160,0);   
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
+    private int damage;
+    private int heal;
+    private int shield;
+
+
 
     private void Awake()
     {
@@ -33,6 +39,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         originalScale = rectTransform.localScale;
         originalPosition = rectTransform.localPosition;
         originalRotation = rectTransform.localRotation;
+
+        damage = GetComponent<CardDisplay>().damage;
+        heal = GetComponent<CardDisplay>().heal;
+        shield = GetComponent<CardDisplay>().shield;
+
     }
     void Update()
     {
@@ -82,6 +93,27 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         rectTransform.localPosition = playPosition;
         rectTransform.localRotation = Quaternion.identity;
         
+        if (!Input.GetMouseButton(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            Debug.Log("Let go");
+            Debug.Log(hit.collider);
+            if (hit.collider != null && hit.collider.GetComponent<EnemyScript>())
+            {
+                EnemyScript enemy = hit.collider.GetComponent<EnemyScript>();
+                enemy.TakeDamage(damage);
+            }
+            if (hit.collider != null && hit.collider.GetComponent<PlayerScript>())
+            {
+                PlayerScript player = hit.collider.GetComponent<PlayerScript>();
+                player.HealDamage(heal);
+                player.ShieldUp(shield);
+            }
+
+
+        }
+
         if (Input.mousePosition.y < cardPlay.y) 
         {
             currentState = 2;
