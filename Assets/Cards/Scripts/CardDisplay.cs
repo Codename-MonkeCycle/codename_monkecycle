@@ -5,6 +5,7 @@ using MonkeGame;
 using UnityEngine.UI;
 using TMPro;
 using TMPro.EditorUtilities;
+using static MonkeGame.CardObject;
 
 
 public class CardDisplay : MonoBehaviour
@@ -33,6 +34,7 @@ public class CardDisplay : MonoBehaviour
 
     void Start()
     {
+        target = cardData.targetType.ToString();
         UpdateCardDisplay();   
     }
 

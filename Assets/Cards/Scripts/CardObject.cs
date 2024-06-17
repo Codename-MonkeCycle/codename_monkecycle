@@ -13,7 +13,6 @@ namespace MonkeGame
     {
         public string cardName;
         public Image image;
-        public List<CardType> cardType;
         public int cost;
         public Rarity rarity;
         public string cardDesc;
@@ -26,20 +25,9 @@ namespace MonkeGame
         public string target;
 
 
-        void Start()
-        {
-            target = targetType.ToString();
-        }
+
         //public StatusEffect statusEffect;
 
-        public enum CardType
-        {
-            Attack,
-            Aoe,
-            Defence,
-            Heal,
-            Status
-        }
 
         public enum Rarity
         {

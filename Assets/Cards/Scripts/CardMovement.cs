@@ -13,6 +13,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     [SerializeField] private Vector3 originalPanelLocalPosition;
     private Vector3 originalScale;
     private int currentState = 0;
+    private PlayerScript player;
     [SerializeField] private Quaternion originalRotation;
     [SerializeField] private Vector3 originalPosition;
     [SerializeField] private float selectScale = 1.1f;
@@ -32,9 +33,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+
         originalScale = rectTransform.localScale;
         originalPosition = rectTransform.localPosition;
         originalRotation = rectTransform.localRotation;
+        player = FindObjectOfType<PlayerScript>();
     }
     private void Start()
     {
@@ -102,8 +105,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
             Debug.Log("Let go");
-            Debug.Log(hit.collider);
-            PlayerScript player = hit.collider.GetComponent<PlayerScript>();
+            Debug.Log(hit.collider);            
             if (player.energy >= cost)
             {
                 if (hit.collider != null && hit.collider.GetComponent<EnemyScript>() && target == "Enemy")
